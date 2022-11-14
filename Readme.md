@@ -26,3 +26,8 @@ func main() {
 }
 
 ```
+
+### Support API
+- [x] Live Info
+- [x] Profile
+- [x] Rank
