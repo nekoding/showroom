@@ -109,20 +109,20 @@ type Profile struct {
 	RoomID                     int    `json:"room_id"`
 }
 
-type SummaryRanking struct {
-	AvatarID   int    `json:"avatar_id"`
-	AvatarURL  string `json:"avatar_url"`
-	Name       string `json:"name"`
-	Point      int    `json:"point"`
-	Order      int    `json:"order"`
-	VisitCount int    `json:"visit_count"`
-	UserID     int    `json:"user_id"`
-	Rank       int    `json:"rank"`
+type Ranking struct {
+	Ranking []struct {
+		AvatarID   int    `json:"avatar_id"`
+		AvatarURL  string `json:"avatar_url"`
+		Name       string `json:"name"`
+		Point      int    `json:"point"`
+		Order      int    `json:"order"`
+		VisitCount int    `json:"visit_count"`
+		UserID     int    `json:"user_id"`
+		Rank       int    `json:"rank"`
+	} `json:"ranking"`
 }
 
-type SummaryRankingCollection []SummaryRanking
-
-func callShowroomApi[T LiveInfo | Profile | SummaryRankingCollection](path string) T {
+func callShowroomApi[T LiveInfo | Profile | Ranking](path string) T {
 	var result T
 	res, err := http.Get(BaseEndpoint + path)
 
@@ -153,9 +153,9 @@ func GetProfile(roomId string) Profile {
 	return result
 }
 
-func GetSummaryRank(roomId string) SummaryRankingCollection {
+func GetSummaryRank(roomId string) Ranking {
 	var path string = "summary_ranking?room_id=" + roomId
-	result := callShowroomApi[SummaryRankingCollection](path)
+	result := callShowroomApi[Ranking](path)
 
 	return result
 }

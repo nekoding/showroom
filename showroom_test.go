@@ -2,7 +2,6 @@ package showroom_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -190,7 +189,7 @@ func TestSummaryRank(t *testing.T) {
 		"visit_count": 16,
 		"user_id": 4909993,
 		"rank": 2
-		},
+		}
 		]
 		}`
 
@@ -201,15 +200,13 @@ func TestSummaryRank(t *testing.T) {
 
 	defer mock.Close()
 
-	var rank []showroom.SummaryRanking
+	var rank showroom.Ranking
 	_ = json.Unmarshal([]byte(fakedata), rank)
-	// res := showroom.GetSummaryRank(mock.URL)
+	res := showroom.GetSummaryRank(mock.URL)
 
-	// for index, data := range res {
-	// 	t.Run(data.Name, func(t *testing.T) {
-	// 		assert.Equal(t, rank[index].Name, data.Name, "name must be same")
-	// 	})
-	// }
-
-	fmt.Println(rank)
+	for index, data := range res.Ranking {
+		t.Run(data.Name, func(t *testing.T) {
+			assert.Equal(t, data.Name, rank.Ranking[index].Name, "name must be same")
+		})
+	}
 }
